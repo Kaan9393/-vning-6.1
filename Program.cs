@@ -1,91 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Övning6._1
+namespace Övning8._1Bibliotek
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Mata in tangenten D eller N");
+            //Skapar en lista av Bok, och döper till bibliotek
+            List<Bok> bibliotek = new List<Bok>();
 
-            List<Animal> forest = new List<Animal>();
+            //Nu ska jag skapa böckerna och lägga i listan
+            Faktabok faktabok = new Faktabok(Bilbok, KaanGolcuk, 30, BMW, 2);
+            bibliotek.Add(faktabok);
 
-
-            Animal animal1 = new Animal();
-            animal1.Name = "Varg";
-            animal1.Nocturnal = true;
-
-            Animal animal2 = new Animal();
-            animal2.Name = "Fladdermus";
-            animal2.Nocturnal = true;
-
-            Animal animal3 = new Animal();
-            animal3.Name = "Delfin";
-            animal3.Nocturnal = false;
-
-            Animal animal4 = new Animal();
-            animal4.Name = "Örn";
-            animal4.Nocturnal = false;
-
-            Animal animal5 = new Animal();
-            animal5.Name = "Häst";
-            animal5.Nocturnal = false;
-
-
-            forest.Add(animal1);
-            forest.Add(animal2);
-            forest.Add(animal3);
-            forest.Add(animal4);
-            forest.Add(animal5);
-
-            ConsoleKeyInfo consoleKey = Console.ReadKey();
-            ConsoleKey key = consoleKey.Key;
-
-            Console.Clear();
-
-            switch (key)
-            {
-
-                case ConsoleKey.D:
-
-                    foreach (Animal d in forest)
-                    {
-                        if (d.Nocturnal == true)
-                            Console.WriteLine($"{d.Name} smyger omkring och letar sitt byte, och {d.Name} flyger runt bland träden");
-                    }
-                    break;
-
-                case ConsoleKey.N:
-                    Console.WriteLine("Dina djur under natten ");
-                    foreach (Animal n in forest)
-                    {
-                        if (n.Nocturnal == false)
-                            Console.WriteLine($"{n.Name} sover, {n.Name} sover ");
-
-                    }
-                    break;
-
-                default:
-                    Console.WriteLine("Fel tangent" );
-                    break;
-            }
-
-            Console.ReadKey();
-
-            
         }
+    }
 
-        public class Animal
+    class Bok
+    {
+        public string Titel { get; set; }
+        public string Författare { get; set; }
+        public int Sidor { get; set; }
+    }
+
+    class Faktabok : Bok
+    {
+        public string Ämne { get; set; }
+        public int Svårighetsgrad { get; set; }
+
+        //Skapar Construktor
+        public Faktabok(string titel, string författare, int sidor, string ämne, int svårighetsgrad)
         {
+            Titel = titel;
+            Författare = författare;
+            Sidor = sidor;
+            Ämne = ämne;
+            Svårighetsgrad = svårighetsgrad;
+        }
+    }
 
-            public string Name { get; set; }
-            public bool Nocturnal { get; set; }
+    class Barnbok : Bok
+    {
+        public bool BarnUngdom { get; set; }
+        public bool Bilderbok { get; set; }
+
+        //Skapar Construktor
+        public Barnbok(string titel, string författare, int sidor, bool barnungdom, bool bilderbok)
+        {
+            Titel = titel;
+            Författare = författare;
+            Sidor = sidor;
+            BarnUngdom = barnungdom;
+            Bilderbok = bilderbok;
+
+        }
+    }
+
+    class Underhållning : Bok
+    {
+        public string Typ { get; set; }
+        public bool RomanElrAntologi { get; set; }
+
+        //Skapa Construktor
+        public Underhållning(string titel, string författare, int sidor, string typ, bool romanelrantologi)
+        {
+            Titel = titel;
+            Författare = författare;
+            Sidor = sidor;
+            Typ = typ;
+            RomanElrAntologi = romanelrantologi;
         }
     }
 }
-
-   
-
-
-
