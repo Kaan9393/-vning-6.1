@@ -1,155 +1,158 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Övning8._1Bibliotek
+namespace InlämningsUppgift
 {
     class Program
     {
         static void Main(string[] args)
         {
-            //Skapar en lista av Bok, och döper till bibliotek
-            List<Bok> bibliotek = new List<Bok>();
-
-            //Nu ska jag skapa böckerna och lägga i listan
-            Faktabok faktabok = new Faktabok("Bilbok", "KaanGolcuk", 30, "BMW", 2);
-            bibliotek.Add(faktabok);
-            Faktabok faktabok2 = new Faktabok("MC", "Rickard", 90, "Att köra snabbt", 3);
-            bibliotek.Add(faktabok2);
-
-            Barnbok barnbok = new Barnbok("Pippi", "Astrid", 15, true, true);
-            bibliotek.Add(barnbok);
-            Barnbok barnbok2 = new Barnbok("Sonic", "Kalle Kula", 5, false, true);
-            bibliotek.Add(barnbok2);
-
-            Underhållning underhållning = new Underhållning("Att rita rätt", "Håkan", 60, "Konst", true);
-            bibliotek.Add(underhållning);
-            Underhållning underhållning2 = new Underhållning("Skriva rätt", "Mikael", 20, "Måla", false);
-            bibliotek.Add(underhållning2);
-
-            Console.WriteLine("Välj i menyn om du vill se en specifik bok");
-            Console.WriteLine("1. Fakta");
-            Console.WriteLine("2. Barn");
-            Console.WriteLine("3. Underhållning");
-            Console.WriteLine("4. All böcker");
-            int menu = int.Parse(Console.ReadLine());
-
-            while (true)
+            List<Tjuv> bibliotekTjuv = new List<Tjuv>();
+            for (int t = 0; t < 20; t++)
             {
+                bibliotekTjuv.Add(new Tjuv(t, t, 1, 1));
+            }
 
-                switch (menu)
-                {
-                    case 1:
-                        foreach (Faktabok item in bibliotek)
-                        {
-                            Console.WriteLine($"\nTitel: {item.Titel}");
-                            Console.WriteLine($"Förefattare: {item.Författare}");
-                            Console.WriteLine($"Sidor: {item.Sidor}");
-                            item.Move();
+            List<Polis> bibliotekPolis = new List<Polis>();
+            for (int p = 0; p < 10; p++)
+            {
+                bibliotekPolis.Add(new Polis(p, p, 6, 6));
+            }
 
-                        }
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        foreach (Bok item in bibliotek)
-                        {
-                            Console.Clear();
+            List<Medborgare> bibliotekMedborgare = new List<Medborgare>();
+            for (int m = 0; m < 30; m++)
+            {
+                bibliotekMedborgare.Add(new Medborgare(m, m, 3, 3));
+            }
 
-                            Console.WriteLine($"\nTitel: {item.Titel}");
-                            Console.WriteLine($"Förefattare: {item.Författare}");
-                            Console.WriteLine($"Sidor: {item.Sidor}");
-                            item.Move();
-                        }
-                        break;
+            for (int y = 0; y <= 25; y++)
+            {
+                Console.WriteLine(" ");
+              for (int x = 0; x < 100; x++)
+              {
+                    foreach (var t in bibliotekTjuv)
+                    {
+                        Console.Write(" ");
+                        Console.Write(t.GetBoardChar());
+                        t.Move();
+
+                    }
+                    foreach (var p in bibliotekPolis)
+                    {
+                        Console.Write(" ");
+                        Console.Write(p.GetBoardChar());
+                        p.Move();
+                    }
+                    foreach (var m in bibliotekMedborgare)
+                    {
+                        Console.Write(" ");
+                        Console.Write(m.GetBoardChar());
+                        m.Move();
+                    }
                 }
-                Console.ReadKey();
+              Console.WriteLine();
+            }
 
+            
+
+            //För att använda override här nere så kan jag lägga in p.GetBoardChar i foreach metoden
+
+            //for (int y = 0; y <= 25; y++)
+            //{
+            //    for (int x = 0; x < 100; x++)
+            //    {
+            //        Console.WriteLine("x");
+            //    }
+            //    Console.WriteLine();
+            //}
+     
+        }
+
+    }
+
+    class Person
+    {
+        public int PositionX { get; set; }
+        public int PositionY { get; set; }
+        public int DirectionX { get; set; }
+        public int DirectionY { get; set; }
+        //Inventory? 
+
+        public void Move()
+        {
+            // Denna är för att Position X och Y ska ändras, för det behöver vi plussa DirectionX,Y.
+            PositionX = PositionX + DirectionX;
+            PositionY = PositionY + DirectionY;
+
+            if (PositionX < 0)
+            {
+                PositionX = DirectionX;
+            }
+            if (PositionY < 0)
+            {
+                PositionY = DirectionY;
             }
         }
 
+        public virtual char GetBoardChar() 
+        {
+            return '?';
+        }
+
     }
 
-    class Bok
+    class Tjuv : Person
     {
-        public string Titel { get; set; }
-        public string Författare { get; set; }
-        public int Sidor { get; set; }
-
-        public virtual void Move()
+        public Tjuv(int positionX, int positionY, int directionX, int directionY)
         {
-            Console.WriteLine();
+            PositionX = positionX;
+            PositionY = positionY;
+            DirectionX = directionX;
+            DirectionY = directionY;
         }
+
+        public override char GetBoardChar()
+        {
+            return 'T';
+        }
+
+        //gör en metod med STEAL
     }
 
-    class Faktabok : Bok
+    class Polis : Person
     {
-        public string Ämne { get; set; }
-        public int Svårighetsgrad { get; set; }
-
-        //Skapar Construktor
-        public Faktabok(string titel, string författare, int sidor, string ämne, int svårighetsgrad)
+        public Polis(int positionX, int positionY, int directionX, int directionY)
         {
-            Titel = titel;
-            Författare = författare;
-            Sidor = sidor;
-            Ämne = ämne;
-            Svårighetsgrad = svårighetsgrad;
+            PositionX = positionX;
+            PositionY = positionY;
+            DirectionX = directionX;
+            DirectionY = directionY;
         }
 
-        public override void Move()
+        public override char GetBoardChar()
         {
-            Console.WriteLine($"Ämne: {Ämne}");
-            Console.WriteLine($"Svårighetsgrad: {Svårighetsgrad}");
-
+            return 'P';
         }
+
+        ///Gör en metod med beslagtaget
     }
 
-    class Barnbok : Bok
+    class Medborgare : Person
     {
-        public bool BarnUngdom { get; set; }
-        public bool Bildbok { get; set; }
-
-        //Skapar Construktor
-        public Barnbok(string titel, string författare, int sidor, bool barnungdom, bool bildbok)
+        public Medborgare(int positionX, int positionY, int directionX, int directionY)
         {
-            Titel = titel;
-            Författare = författare;
-            Sidor = sidor;
-            BarnUngdom = barnungdom;
-            Bildbok = bildbok;
-
+            PositionX = positionX;
+            PositionY = positionY;
+            DirectionX = directionX;
+            DirectionY = directionY;
         }
 
-        public override void Move()
+        public override char GetBoardChar()
         {
-            Console.WriteLine($"Barn eller Ungdom: {(BarnUngdom ? "Barnbok" : "Ungdomsbok")} ");
-            Console.WriteLine($"Bildbok?: {(Bildbok ? "Ja" : "Nej")} ");
-
+            return 'M';
         }
+
     }
 
-    class Underhållning : Bok
-    {
-        public string Typ { get; set; }
-        public bool RomanElrAntologi { get; set; }
-
-        //Skapa Construktor
-        public Underhållning(string titel, string författare, int sidor, string typ, bool romanelrantologi)
-        {
-            Titel = titel;
-            Författare = författare;
-            Sidor = sidor;
-            Typ = typ;
-            RomanElrAntologi = romanelrantologi;
-        }
-
-        public override void Move()
-        {
-            Console.WriteLine($"Type: {Typ}");
-            Console.WriteLine($"Roman eller Antologi? {(RomanElrAntologi ? "Roman" : "Antologi")}");
-
-        }
-    }
 }
+
