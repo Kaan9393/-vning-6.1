@@ -1,128 +1,126 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace InlämningsUppgift
+namespace Övning_Klädbutiken
 {
     class Program
     {
         static void Main(string[] args)
         {
-            List<Tjuv> bibliotekTjuv = new List<Tjuv>();
+            Plagg plagg = default;
 
-            int X = 100;
-            int Y = 25;
-            String[,] spelplan = new string[X, Y];
+            Console.Write("Tryck 1 för Pants: ");
+            Console.Write("Tryck 2 för Shirt: ");
+            Console.Write("Tryck 3 för Shoes: ");
+            int plaggTyp = int.Parse(Console.ReadLine());
+            plagg.Type = (Enum.GetName(typeof(Type), plaggTyp));
 
+            Console.Write("Tryck 1 för Xs: ");
+            Console.Write("Tryck 2 för S: ");
+            Console.Write("Tryck 3 för M: ");
+            int storlek = int.Parse(Console.ReadLine());
+            plagg.Size = (Enum.GetName(typeof(Size), storlek));
 
-            for (int t = 0; t < 20; t++)
+            Console.Write("Tryck 1 för Blue: ");
+            Console.Write("Tryck 2 för Green: ");
+            Console.Write("Tryck 3 för Yellow: ");
+            int färg = int.Parse(Console.ReadLine());
+            plagg.Color = (Enum.GetName(typeof(Color), färg));
+
+            Console.Write("Tryck 1 för 100kr: ");
+            Console.Write("Tryck 2 för 200kr: ");
+            Console.Write("Tryck 3 för 300kr: ");
+            int pris = int.Parse(Console.ReadLine());
+            int one = (int)Price.OneHundred;
+            int two = (int)Price.TwoHundred;
+            int three = (int)Price.ThreeHundred;
+
+            if (pris == 1)
             {
-                bibliotekTjuv.Add(new Tjuv(t, t, 1, 1));
-                Console.WriteLine(bibliotekTjuv);
+                pris = one;
             }
-
-            List<Polis> bibliotekPolis = new List<Polis>();
-            for (int p = 0; p < 10; p++)
+            else if (pris == 2)
             {
-                bibliotekPolis.Add(new Polis(p, p, 6, 6));
+                pris = two;
             }
-
-            List<Medborgare> bibliotekMedborgare = new List<Medborgare>();
-            for (int m = 0; m < 30; m++)
+            else if (pris == 3)
             {
-                bibliotekMedborgare.Add(new Medborgare(m, m, 3, 3));
+                pris = three;
             }
+            plagg.Price = (Enum.GetName(typeof(Price), pris));
+
+            List<Plagg> butik = new List<Plagg>();
+            butik.Add(plagg);
+
+
+            Console.WriteLine($"{plagg.Type}, {plagg.Size}, {plagg.Color}, {plagg.Price}");
+            
+
+            //List<Type> type = new List<Type>();
+
+            //Console.Write("Lägg in TYP: Välj 1 för Pants, Välj 2 för Shirt, Välj 3 för Shoes ");
+            //string plaggTyp = Console.ReadLine();
+            //foreach (Type p in plaggTyp)
+            //{
+            //    Console.WriteLine(p);
+            //}
+            //Console.Write("Välj Plagg: ");
+            //string plaggTyp = Console.ReadLine();
+
+            //Console.Write("Välj Storlek: ");
+            //string storlek = Console.ReadLine();
+
+            //Console.Write("Välj Färg: ");
+            //string färg = Console.ReadLine();
+
+            //Console.Write("Välj Pris: ");
+            //int pris = int.Parse(Console.ReadLine());
+
+            //List<Plagg> clothes = new List<Plagg>();
 
             Console.ReadKey();
-
-
-
         }
 
+    }
 
+    struct Plagg
+    {
+        public string Type { get; set; }
+        public string Size { get; set; }
+        public string Color { get; set; }
+        public string Price { get; set; }
 
-        class Person
+        public Plagg(string type, string size, string color, string price)
         {
-            public int PositionX { get; set; }
-            public int PositionY { get; set; }
-            public int DirectionX { get; set; }
-            public int DirectionY { get; set; }
-            //Inventory? 
-
-            public void Move()
-            {
-                // Denna är för att Position X och Y ska ändras, för det behöver vi plussa DirectionX,Y.
-                PositionX = PositionX + DirectionX;
-                PositionY = PositionY + DirectionY;
-
-                if (PositionX < 0)
-                {
-                    PositionX = DirectionX;
-                }
-                if (PositionY < 0)
-                {
-                    PositionY = DirectionY;
-                }
-            }
-
-            public virtual char GetBoardChar()
-            {
-                return '?';
-            }
-
-        }
-
-        class Tjuv : Person
-        {
-            public Tjuv(int positionX, int positionY, int directionX, int directionY)
-            {
-                PositionX = positionX;
-                PositionY = positionY;
-                DirectionX = directionX;
-                DirectionY = directionY;
-            }
-
-            public override char GetBoardChar()
-            {
-                return 'T';
-            }
-
-            //gör en metod med STEAL
-        }
-
-        class Polis : Person
-        {
-            public Polis(int positionX, int positionY, int directionX, int directionY)
-            {
-                PositionX = positionX;
-                PositionY = positionY;
-                DirectionX = directionX;
-                DirectionY = directionY;
-            }
-
-            public override char GetBoardChar()
-            {
-                return 'P';
-            }
-
-            ///Gör en metod med beslagtaget
-        }
-
-        class Medborgare : Person
-        {
-            public Medborgare(int positionX, int positionY, int directionX, int directionY)
-            {
-                PositionX = positionX;
-                PositionY = positionY;
-                DirectionX = directionX;
-                DirectionY = directionY;
-            }
-
-            public override char GetBoardChar()
-            {
-                return 'M';
-            }
-
+            Type = type;
+            Size = size;
+            Color = color;
+            Price = price;
         }
     }
-}
 
+    enum Type
+    {
+        Pants = 1,
+        Shirt = 2,
+        Shoes = 3,
+    }
+    enum Size
+    {
+        Xs = 1,
+        S = 2,
+        M = 3,
+    }
+    enum Color
+    {
+        Blue = 1,
+        Green = 2,
+        Yellow = 3,
+    }
+    enum Price
+    {
+        OneHundred = 100,
+        TwoHundred = 200,
+        ThreeHundred = 300,
+    }
+}
